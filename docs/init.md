@@ -52,13 +52,13 @@ pnpm i eslint-config-prettier eslint-plugin-prettier -D -w
 pnpm i husky -D -w
 ```
 
-    * 初始化husky
+- 初始化husky
 
 ```
 npx husky install
 ```
 
-    * 将pnpm lint纳入commit时husky将执行的脚本
+- 将pnpm lint纳入commit时husky将执行的脚本
 
 ```
 npx husky add .husky/pre-commit "pnpm lint"
@@ -103,3 +103,6 @@ type:
 
 * 配置tsconfig
   tsconfig.json
+* 打包工具
+  - 使用rollup,简洁，打包产物可读性高
+  - pnpm i -D -w rollup
