@@ -57,9 +57,7 @@ function ChildReconciler(shouldTrackEffects: boolean) {
 			return placeSingleChild(
 				reconcileSingleTextNode(returnFiber, currentFiber, newChild)
 			);
-		}
-
-		if (__DEV__) {
+		} else if (__DEV__) {
 			console.warn('没有实现的reconcile类型', newChild);
 		}
 		return null;

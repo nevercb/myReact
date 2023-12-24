@@ -3,6 +3,7 @@ import { beginWork } from './beginWork';
 import { completeWork } from './completeWork';
 import { HostRoot } from './workTags';
 import { MutationMask, NoFlags } from './fiberFlags';
+import { commmitMutationEffects } from './commitWork';
 let workInProgress: FiberNode | null = null;
 
 function prepareFreshStack(root: FiberRootNode) {
@@ -37,7 +38,7 @@ function renderRoot(root: FiberRootNode) {
 			break;
 		} catch (e) {
 			if (__DEV__) {
-				console.warn('workLoop发生错误');
+				console.warn('workLoop发生错误', e);
 			}
 			workInProgress = null;
 		}
@@ -65,14 +66,14 @@ function commitRoot(root: FiberRootNode) {
 	// 判断三个子阶段需要执行的操作是否存在
 	// root flags root subtreeFlags
 	const subtreeHasEffect =
-		finishedWork.subtreeFlags & (MutationMask !== NoFlags);
-	const rootHasEffect = finishedWork.flags & (MutationMask !== NoFlags);
+		(finishedWork.subtreeFlags & MutationMask) !== NoFlags;
+	const rootHasEffect = (finishedWork.flags & MutationMask) !== NoFlags;
 
 	if (subtreeHasEffect || rootHasEffect) {
 		// beforeMutation
 
 		// Mutation<- Placement
-
+		commmitMutationEffects(finishedWork);
 		// Layout
 		root.current = finishedWork;
 	} else {
